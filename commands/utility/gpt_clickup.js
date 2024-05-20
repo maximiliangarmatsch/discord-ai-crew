@@ -2,18 +2,35 @@ const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
 
 module.exports = {
-	category: 'utility',
+	category: 'gpt',
 	data    : new SlashCommandBuilder()
-		.setName('ping')
-		.setDescription('Replies with Pong!'),
-	// .addStringOption(option =>
-	//   option.setName('input')
-	//     .setDescription('The input to echo back')),
+		.setName('clickup')
+		.setDescription('ClickUp.com stuff'),
 	async execute(interaction) {
 		// const question = interaction.options.getString('input');
 		const question = 'what is chatgpt';
-		console.log('### ping question', question);
+		console.log('### question', question);
 
+		/*
+		try {
+            const response = await axios.get(`https://api.clickup.com/api/v2/task?search=${searchText}`, {
+                headers: {
+                    'Authorization': CLICKUP_API_KEY
+                }
+            });
+
+            const tasks = response.data.tasks;
+            if (tasks.length > 0) {
+                const taskLinks = tasks.map(task => `Title: ${task.name}\nLink: ${task.url}`).join('\n\n');
+                message.channel.send(`Found ${tasks.length} tasks:\n${taskLinks}`);
+            } else {
+                message.channel.send('No tasks found.');
+            }
+        } catch (error) {
+            console.error('Error fetching ClickUp tasks:', error);
+            message.channel.send('Error fetching ClickUp tasks.');
+        }
+		 */
 
 		axios.post('https://api.openai.com/v1/chat/completions', {
 			max_tokens : 100,
@@ -40,7 +57,7 @@ module.exports = {
 		})
 			.then(response => {
 				const answer = response.data.choices[0].message.content || 'FAILED';
-				console.log('### ping ANSWER', answer);
+				console.log('### ANSWER', answer);
 				interaction.reply('Response:' + answer);
 				// return response;
 			})
@@ -78,7 +95,7 @@ Content
 }
 
 Headers
-Authorization: Bearer sk-proj-qKUobX0UTsbj09kMzLo9T3BlbkFJcC3IO8N8mSKFBlkNGWnc
+Authorization: Bearer ${process.env.CHATGPT_API_KEY}
 Content-Type: application/json
 
  */

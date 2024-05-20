@@ -1,4 +1,4 @@
-const {SlashCommandBuilder} = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
 	category: 'utility',
@@ -9,7 +9,7 @@ module.exports = {
 	//   option.setName('command')
 	//     .setDescription('The command to reload.')
 	//     .setRequired(true)),
-	async execute(interaction){
+	async execute(interaction) {
 		// const commandName = interaction.options.getString('command', true).toLowerCase();
 		// const command = interaction.client.commands.get(commandName);
 		//
@@ -18,7 +18,7 @@ module.exports = {
 		// }
 
 		// delete require.cache[require.resolve(`../${command.category}/${command.data.name}.js`)];
-		delete require.cache[require.resolve(`../utility/ping.js`)];
+		delete require.cache[require.resolve('../utility/gpt_t.js')];
 
 		// try {
 		//   interaction.client.commands.delete(command.data.name);
@@ -29,14 +29,15 @@ module.exports = {
 		//   console.error(error);
 		//   await interaction.reply(`There was an error while reloading a command \`${command.data.name}\`:\n\`${error.message}\``);
 		// }
-		try{
-			interaction.client.commands.delete('ping');
-			const newCommand = require(`../utility/ping.js`);
-			interaction.client.commands.set('ping', newCommand);
+		try {
+			interaction.client.commands.delete('t');
+			const newCommand = require('../utility/gpt_t.js');
+			interaction.client.commands.set('t', newCommand);
 			await interaction.reply(`Command \`${newCommand.data.name}\` was reloaded!`);
-		}catch(error){
+		}
+		catch (error) {
 			console.error(error);
-			await interaction.reply(`There was an error while reloading a command ping:\n\`${error.message}\``);
+			await interaction.reply(`There was an error while reloading a command "t":\n\`${error.message}\``);
 		}
 	},
 };
