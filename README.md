@@ -1,7 +1,10 @@
 # discord-ai-crew
 Discord bot with ChatGPT connection
 
-## Start
+## Discord usage
+- /t {prompt} = sends {prompt} to ChatGPT and returns the answer
+
+## Start (for Devs)
 - ~/.env file must contain
   - DISCORD_TOKEN=
   - DISCORD_CLIENT_ID=
@@ -12,10 +15,9 @@ Discord bot with ChatGPT connection
 - node index.js
 - node deploy-commands.js ##to deploy to discord
 
-## Discord usage
-- /r = runs "node deploy-commands.js"
-- /t {prompt} = sends {prompt} to ChatGPT and returns the answer
+## Discord usage (For Devs)
+- /r = reloads new commands (runs "node deploy-commands.js")
 
-## Other links
+## Other links (For Devs)
 - Create ChatGPT API key: https://platform.openai.com/api-keys (this costs money)
 - Create Discord API keys: just google it bro
