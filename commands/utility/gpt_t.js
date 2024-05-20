@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const axios = require('axios');
+// const util = require('util');
 
 module.exports = {
 	category: 'gpt',
@@ -9,42 +10,50 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('prompt').setDescription('ChatGPT prompt')),
 	async execute(interaction) {
+		const user = interaction.user;
 		const prompt = interaction.options.getString('prompt');
 		console.log('### gpt_t Prompt: ', prompt);
 
-		axios.post('https://api.openai.com/v1/chat/completions', {
-			max_tokens : 100,
-			temperature: 0.7,
-			model      : 'gpt-3.5-turbo-0125',
-			messages   : [
-				// DOCS
-				// https://platform.openai.com/docs/api-reference/chat/create
+		// Permissions only for maximilian.f.p.g
+		if (user.username !== 'maximilian.f.p.g') {
+			interaction.reply('Na na na, you didn\'t say the magic word');
+			// ${util.inspect(user)}
+		}
 
-				// {
-				//   role: "system",
-				//   content: "You are a helpful assistant."
-				// },
-				{
-					role   : 'user',
-					content: prompt,
+		// Prompt "real_" for real connection (costs money)
+		// Otherwise reply with prompt
+		if (!prompt.startsWith('real_')) {
+			interaction.reply(`reply: ${prompt}`);
+		} else {
+			// Uncomment to activate ChatGPT (costs money)
+			axios.post('https://api.openai.com/v1/chat/completions', {
+				max_tokens : 100,
+				temperature: 0.7,
+				model      : 'gpt-3.5-turbo-0125',
+				messages   : [
+					{
+						role   : 'user',
+						content: prompt,
+					},
+				],
+			}, {
+				headers: {
+					'Authorization': `Bearer ${process.env.CHATGPT_API_KEY}`,
+					'Content-Type' : 'application/json',
 				},
-			],
-		}, {
-			headers: {
-				'Authorization': `Bearer ${process.env.CHATGPT_API_KEY}`,
-				'Content-Type' : 'application/json',
-			},
-		})
-			.then(response => {
-				const reply = response.data.choices[0].message.content || 'FAILED';
-				console.log('### reply ', reply);
-				interaction.reply(reply);
-				// return response;
 			})
-			.catch(error => {
-				console.error('Error fetching response from ChatGPT:', error.message);
-				interaction.reply('ERROR: ' + error);
-			});
+				.then(response => {
+					const reply = response.data.choices[0].message.content || 'FAILED';
+					console.log('### reply ', reply);
+					interaction.reply(reply);
+					// return response;
+				})
+				.catch(error => {
+					console.error('Error fetching response from ChatGPT:', error.message);
+					interaction.reply('ERROR: ' + error);
+				});
+
+		}
 	},
 };
 
@@ -57,13 +66,17 @@ module.exports = {
 URL
 https://api.openai.com/v1/chat/completions
 
+
 Content
 {
     "messages": [
-    {
-        "role": "system",
-        "content": "You are a helpful assistant."
-      },
+    // DOCS
+	// https://platform.openai.com/docs/api-reference/chat/create
+
+	// {
+	//   role: "system",
+	//   content: "You are a helpful assistant."
+	// },
       {
         "role": "user",
         "content": "whats the quickest path from berlin to rome"
