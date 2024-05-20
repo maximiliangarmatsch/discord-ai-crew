@@ -1,5 +1,4 @@
-# discord-ai-crew
-Discord bot with ChatGPT connection
+# Discord-Bot with ChatGPT integration
 
 ## Discord usage
 - /t {prompt} = sends {prompt} to ChatGPT and returns the answer
