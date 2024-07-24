@@ -19,4 +19,4 @@
 
 ## Other links (For Devs)
 - Create ChatGPT API key: https://platform.openai.com/api-keys (this costs money)
-- Create Discord API keys: just google it bro
+- Create Discord API keys: just google it
